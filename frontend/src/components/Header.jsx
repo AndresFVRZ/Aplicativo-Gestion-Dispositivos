@@ -21,7 +21,7 @@ function Header() {
       <nav>
         <ul style={{ display: 'flex', gap: '20px', listStyle: 'none', margin: 0, padding: 0 }}>
           <li style={{ cursor: 'pointer' }}>Inicio</li>
-          <li style={{ cursor: 'pointer' }}>Acerca de</li>
+          <li style={{ cursor: 'pointer' }}>empresas</li>
           <li style={{ cursor: 'pointer' }}>Contacto</li>
         </ul>
       </nav>
