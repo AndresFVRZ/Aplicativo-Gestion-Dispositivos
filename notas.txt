@@ -1,0 +1,63 @@
+Uso de las herramientas en el proyecto
+
+React 18 (con Vite 5/8)
+React Router DOM 6
+TailwinCSS
+jsPDF + jspdf-autotable (PDFs)
+Context API (autenticación)
+Backend
+Node.js + Express 4
+PostgreSQL 9.5+ (base de datos)
+pgAdmin 4 (gestor visual)
+JWT (jsonwebtoken)
+bcryptjs (hash de contraseñas)
+CORS + dotenv
+
+Extensiones VS Code
+ES7+ React snippets
+Tailwind CSS IntelliSense
+Prettier
+Control de versiones
+Git / GitHub
+
+Base de datos - Tablas
+usuarios / roles / empresas
+equipos / mantenimientos
+historial_acciones
+
+
+
+Termiados
+saber dispositivos asignados
+formulario de ingreso y formulario de modificacion
+estados de los dispositivos
+disponible
+baja
+prestamo
+asignados
+dañado
+filtro por usuario 
+retiro de boton de exportar
+papelera de borrado de usuarios
+Apartado de historal de borrado y de modificacion
+Tiempo de garantia en cada dispositivo
+Paginacion de registros por pagina
+dashboard poner los disponibles, los desktops y las laptos y el el total
+boton visualizar movimientos
+campos reales lista
+
+
+
+pendientes
+boton de exportar archivos planos en .xlss
+darle formato a las demas empresas
+arreglar logo de la pagina
+arreglar inicio de sesion
+
+
+
+
+En proceso
+paleta de colores
+Advertencia de correo invalido si no es corporativo
+login por empresas

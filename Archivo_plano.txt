@@ -1,0 +1,15 @@
+codigo:
+Nombre:
+Tipo:
+Marca:
+Modelo:
+Serial:
+Estado:
+Ubicacion:
+Asignado a:
+Procesador:
+Ram:
+Disco duro:
+Sistema Operativo:
+Fecha compra:
+Garantia:
