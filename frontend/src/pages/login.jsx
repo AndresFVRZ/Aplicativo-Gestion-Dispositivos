@@ -19,8 +19,12 @@ function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  // Todos los logos para el fondo
+  // Todos los logos (repetidos para mayor densidad)
   const todosLosLogos = [
+    logoEmtra, logoAccesalud, logoEmtrasur, logoInprosalud,
+    logoSertti, logoSiMadrid, logoSoluciones,
+    logoEmtra, logoAccesalud, logoEmtrasur, logoInprosalud,
+    logoSertti, logoSiMadrid, logoSoluciones,
     logoEmtra, logoAccesalud, logoEmtrasur, logoInprosalud,
     logoSertti, logoSiMadrid, logoSoluciones
   ];
@@ -50,7 +54,7 @@ function Login() {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      {/* Todos los logos en el fondo (mosaico) */}
+      {/* Fondo con todos los logos (más claros) */}
       <div style={{
         position: 'absolute',
         top: 0,
@@ -59,21 +63,21 @@ function Login() {
         bottom: 0,
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '40px',
-        padding: '40px',
-        opacity: 0.08,
+        gap: '60px',
+        padding: '50px  20px  50px 20px',
+        opacity: 0.15,
         pointerEvents: 'none',
         zIndex: 0,
         alignItems: 'center',
         justifyItems: 'center'
       }}>
-        {todosLosLogos.map((logo, index) => (
+        {todosLosLogos.slice(0, 16).map((logo, index) => (
           <img
             key={index}
             src={logo}
             alt="Logo empresa"
             style={{
-              width: '120px',
+              width: '200px',
               height: 'auto',
               objectFit: 'contain',
               filter: 'brightness(0) invert(1)'
@@ -82,31 +86,31 @@ function Login() {
         ))}
       </div>
 
-      {/* Segunda fila de logos (desplazada) */}
+      {/* Segunda capa de logos (desplazada) */}
       <div style={{
         position: 'absolute',
-        top: '50%',
+        top: -50,
         left: 0,
         right: 0,
-        bottom: 0,
+        bottom: -50,
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '40px',
-        padding: '40px',
-        opacity: 0.08,
+        gap: '60px',
+        padding: '50px',
+        opacity: 0.12,
         pointerEvents: 'none',
         zIndex: 0,
         alignItems: 'center',
         justifyItems: 'center',
-        transform: 'translateY(-30px)'
+        transform: 'translateY(30px)'
       }}>
-        {todosLosLogos.map((logo, index) => (
+        {todosLosLogos.slice(8, 24).map((logo, index) => (
           <img
-            key={index + 8}
+            key={index + 100}
             src={logo}
             alt="Logo empresa"
             style={{
-              width: '120px',
+              width: '200px',
               height: 'auto',
               objectFit: 'contain',
               filter: 'brightness(0) invert(1)'
@@ -115,6 +119,40 @@ function Login() {
         ))}
       </div>
 
+      {/* Tercera capa de logos (más desplazada) */}
+      <div style={{
+        position: 'absolute',
+        top: -100,
+        left: 0,
+        right: 0,
+        bottom: -100,
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: '60px',
+        padding: '50px',
+        opacity: 0.1,
+        pointerEvents: 'none',
+        zIndex: 0,
+        alignItems: 'center',
+        justifyItems: 'center',
+        transform: 'translateY(60px)'
+      }}>
+        {todosLosLogos.slice(16, 32).map((logo, index) => (
+          <img
+            key={index + 200}
+            src={logo}
+            alt="Logo empresa"
+            style={{
+              width: '200px',
+              height: 'auto',
+              objectFit: 'contain',
+              filter: 'brightness(0) invert(1)'
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Formulario de login */}
       <div style={{
         background: 'white',
         borderRadius: '20px',

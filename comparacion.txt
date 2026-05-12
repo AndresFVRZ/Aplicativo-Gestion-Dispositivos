@@ -26,13 +26,6 @@ function Soluciones({ equipos, setEquipos, token }) {
 
   const API_URL = 'http://localhost:5000/api';
 
-  // Lista de ubicaciones de Soluciones Corp
-  const listaUbicaciones = [
-    'BODEGA', 'CALIDAD', 'COMERCIAL', 'FINANCIERA', 'GERENCIA',
-    'GESTION HUMANA', 'JURIDICA', 'LOGISTICA', 'PLANTA', 'PRODUCCION',
-    'SST', 'TESORERIA', 'TRANSITO EXPRESS'
-  ];
-
   // Función para recargar equipos
   const recargarEquipos = async () => {
     try {
@@ -417,22 +410,7 @@ function Soluciones({ equipos, setEquipos, token }) {
             <div><input style={errores.modelo ? styles.inputError : styles.input} placeholder="Modelo *" value={nuevoEquipo.modelo} onChange={(e) => handleChange('modelo', e.target.value)} />{errores.modelo && <div style={styles.errorText}>{errores.modelo}</div>}</div>
             <div><input style={errores.serial ? styles.inputError : styles.input} placeholder="Serial *" value={nuevoEquipo.serial} onChange={(e) => handleChange('serial', e.target.value)} />{errores.serial && <div style={styles.errorText}>{errores.serial}</div>}</div>
             <div><select style={errores.estado ? styles.selectError : styles.select} value={nuevoEquipo.estado} onChange={(e) => handleChange('estado', e.target.value)}><option>Activo</option><option>Asignado</option><option>Disponible</option><option>Préstamo</option><option>Reparación</option><option>Dañado</option><option>Baja</option></select>{errores.estado && <div style={styles.errorText}>{errores.estado}</div>}</div>
-            
-            {/* Ubicación - SELECTOR DROPDOWN */}
-            <div>
-              <select 
-                style={errores.ubicacion ? styles.selectError : styles.select} 
-                value={nuevoEquipo.ubicacion} 
-                onChange={(e) => handleChange('ubicacion', e.target.value)}
-              >
-                <option value="">Seleccione una ubicación</option>
-                {listaUbicaciones.map(ubic => (
-                  <option key={ubic} value={ubic}>{ubic}</option>
-                ))}
-              </select>
-              {errores.ubicacion && <div style={styles.errorText}>{errores.ubicacion}</div>}
-            </div>
-            
+            <div><input style={errores.ubicacion ? styles.inputError : styles.input} placeholder="Ubicacion *" value={nuevoEquipo.ubicacion} onChange={(e) => handleChange('ubicacion', e.target.value)} />{errores.ubicacion && <div style={styles.errorText}>{errores.ubicacion}</div>}</div>
             <div><input style={errores.asignado_a ? styles.inputError : styles.input} placeholder="Asignado a *" value={nuevoEquipo.asignado_a} onChange={(e) => handleChange('asignado_a', e.target.value)} />{errores.asignado_a && <div style={styles.errorText}>{errores.asignado_a}</div>}</div>
             <div><input style={errores.procesador ? styles.inputError : styles.input} placeholder="Procesador *" value={nuevoEquipo.procesador} onChange={(e) => handleChange('procesador', e.target.value)} />{errores.procesador && <div style={styles.errorText}>{errores.procesador}</div>}</div>
             <div><input style={errores.ram ? styles.inputError : styles.input} placeholder="RAM *" value={nuevoEquipo.ram} onChange={(e) => handleChange('ram', e.target.value)} />{errores.ram && <div style={styles.errorText}>{errores.ram}</div>}</div>
@@ -507,13 +485,11 @@ function Soluciones({ equipos, setEquipos, token }) {
                         <button onClick={() => verDetalle(eq)} style={styles.btnWarning}>
                           {equipoSeleccionado?.id === eq.id ? 'Ocultar' : 'Ver'}
                         </button>
-                        {tienePermiso(['super_admin', 'gestion']) && (
-                          <button onClick={() => editarEquipo(eq)} style={{ ...styles.btnBlue, marginLeft: '6px' }}>Editar</button>
-                        )}
+                        <button onClick={() => editarEquipo(eq)} style={{ ...styles.btnBlue, marginLeft: '6px' }}>Editar</button>
                         {tienePermiso(['super_admin']) && (
                           <button onClick={() => confirmarEliminar(eq.id, eq.nombre_equipo)} style={{ ...styles.btnDanger, marginLeft: '6px' }}>Eliminar</button>
                         )}
-                        </td>
+                        </td> 
                       </tr>
 
                     {/* Detalle del equipo - Tarjeta encerrada */}
@@ -590,7 +566,7 @@ function Soluciones({ equipos, setEquipos, token }) {
                       </tr>
                     )}
 
-                    {/* Editar equipo - con selector de ubicación */}
+                    {/* Editar equipo */}
                     {equipoEditando?.id === eq.id && tienePermiso(['super_admin', 'gestion']) && (
                       <tr style={{ background: '#fff8e7' }}>
                         <td colSpan="8" style={{ padding: '20px', borderTop: '2px solid #2c7a7d' }}>
@@ -603,15 +579,7 @@ function Soluciones({ equipos, setEquipos, token }) {
                             <div><label>Modelo:</label><input type="text" name="modelo" value={formData.modelo || ''} onChange={handleEditChange} style={styles.input} /></div>
                             <div><label>Serial:</label><input type="text" name="serial" value={formData.serial || ''} onChange={handleEditChange} style={styles.input} /></div>
                             <div><label>Estado:</label><select name="estado" value={formData.estado || ''} onChange={handleEditChange} style={styles.select}><option>Activo</option><option>Asignado</option><option>Disponible</option><option>Préstamo</option><option>Reparación</option><option>Dañado</option><option>Baja</option></select></div>
-                            <div>
-                              <label>Ubicación:</label>
-                              <select name="ubicacion" value={formData.ubicacion || ''} onChange={handleEditChange} style={styles.select}>
-                                <option value="">Seleccione una ubicación</option>
-                                {listaUbicaciones.map(ubic => (
-                                  <option key={ubic} value={ubic}>{ubic}</option>
-                                ))}
-                              </select>
-                            </div>
+                            <div><label>Ubicación:</label><input type="text" name="ubicacion" value={formData.ubicacion || ''} onChange={handleEditChange} style={styles.input} /></div>
                             <div><label>Asignado a:</label><input type="text" name="asignado_a" value={formData.asignado_a || ''} onChange={handleEditChange} style={styles.input} /></div>
                             <div><label>Procesador:</label><input type="text" name="procesador" value={formData.procesador || ''} onChange={handleEditChange} style={styles.input} /></div>
                             <div><label>RAM:</label><input type="text" name="ram" value={formData.ram || ''} onChange={handleEditChange} style={styles.input} /></div>

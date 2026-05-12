@@ -11,5 +11,5 @@ Procesador:
 Ram:
 Disco duro:
 Sistema Operativo:
-Fecha compra:
+Fecha asignacion:
 Garantia:
