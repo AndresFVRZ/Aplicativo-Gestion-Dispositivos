@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 import * as XLSX from 'xlsx';
 
 function Soluciones({ equipos, setEquipos, token }) {
+  const { usuario, tienePermiso } = useAuth();
   const [busqueda, setBusqueda] = useState('');
   const [equipoSeleccionado, setEquipoSeleccionado] = useState(null);
   const [equipoEditando, setEquipoEditando] = useState(null);
@@ -109,7 +111,7 @@ function Soluciones({ equipos, setEquipos, token }) {
         }
 
         await recargarEquipos();
-        alert(`✅ Importación completada\n📊 Importados: ${importados}\n❌ Errores: ${errores.length}`);
+        alert(` Importación completada\n Importados: ${importados}\n Errores: ${errores.length}`);
         if (errores.length > 0 && errores.length <= 10) {
           alert('Detalles de errores:\n' + errores.join('\n'));
         }
@@ -481,10 +483,14 @@ function Soluciones({ equipos, setEquipos, token }) {
                         <button onClick={() => verDetalle(eq)} style={styles.btnWarning}>
                           {equipoSeleccionado?.id === eq.id ? 'Ocultar' : 'Ver'}
                         </button>
-                        <button onClick={() => editarEquipo(eq)} style={{ ...styles.btnBlue, marginLeft: '6px' }}>Editar</button>
-                        <button onClick={() => confirmarEliminar(eq.id, eq.nombre_equipo)} style={{ ...styles.btnDanger, marginLeft: '6px' }}>Eliminar</button>
-                      </td>
-                     </tr>
+                        {tienePermiso(['super_admin', 'gestion']) && (
+                          <button onClick={() => editarEquipo(eq)} style={{ ...styles.btnBlue, marginLeft: '6px' }}>Editar</button>
+                        )}
+                        {tienePermiso(['super_admin']) && (
+                          <button onClick={() => confirmarEliminar(eq.id, eq.nombre_equipo)} style={{ ...styles.btnDanger, marginLeft: '6px' }}>Eliminar</button>
+                        )}
+                       </td>
+                      </tr>
 
                     {/* Detalle del equipo - Tarjeta encerrada */}
                     {equipoSeleccionado?.id === eq.id && !equipoEditando && (
@@ -512,8 +518,7 @@ function Soluciones({ equipos, setEquipos, token }) {
                                   <tr><td style={{ padding: '6px 0', width: '33%' }}><strong>Código:</strong> {eq.codigo || 'N/A'}</td><td style={{ padding: '6px 0', width: '33%' }}><strong>Nombre:</strong> {eq.nombre_equipo || 'N/A'}</td><td style={{ padding: '6px 0', width: '33%' }}><strong>Tipo:</strong> {eq.tipo || 'N/A'}</td></tr>
                                   <tr><td style={{ padding: '6px 0' }}><strong>Marca:</strong> {eq.marca || 'N/A'}</td><td style={{ padding: '6px 0' }}><strong>Modelo:</strong> {eq.modelo || 'N/A'}</td><td style={{ padding: '6px 0' }}><strong>Serial:</strong> {eq.serial || 'N/A'}</td></tr>
                                   <tr><td style={{ padding: '6px 0' }}><strong>Ubicación:</strong> {eq.ubicacion || 'N/A'}</td><td style={{ padding: '6px 0' }}><strong>Asignado a:</strong> {eq.asignado_a || 'N/A'}</td><td style={{ padding: '6px 0' }}><strong>Estado:</strong> {eq.estado || 'N/A'}</td></tr>
-                                  <tr><td style={{ padding: '6px 0' }}><strong>Procesador:</strong> {eq.procesador || 'N/A'}</td><td style={{ padding: '6px 0' }}><strong>RAM:</strong> {eq.ram || 'N/A'}</td><td style={{ padding: '6px 0' }}><strong>Disco Duro:</strong> {eq.disco_duro || 'N/A'}</td></tr>
-                                  <tr><td style={{ padding: '6px 0' }}><strong>Sistema Operativo:</strong> {eq.sistema_operativo || 'N/A'}</td><td style={{ padding: '6px 0' }}><strong>Fecha Asignación:</strong> {eq.fecha_asignacion || 'N/A'}</td><td style={{ padding: '6px 0' }}><strong>Garantía contratada:</strong> {eq.garantia || 'N/A'}</td></tr>
+                                  <tr><td style={{ padding: '6px 0' }}><strong>Procesador:</strong> {eq.procesador || 'N/A'}</td><td style={{ padding: '6px 0' }}><strong>RAM:</strong> {eq.ram || 'N/A'}</td><td style={{ padding: '6px 0' }}><strong>Disco Duro:</strong> {eq.disco_duro || 'N/A'}</td></tr>                                  <tr><td style={{ padding: '6px 0' }}><strong>Sistema Operativo:</strong> {eq.sistema_operativo || 'N/A'}</td><td style={{ padding: '6px 0' }}><strong>Fecha Asignación:</strong> {eq.fecha_asignacion || 'N/A'}</td><td style={{ padding: '6px 0' }}><strong>Garantía contratada:</strong> {eq.garantia || 'N/A'}</td></tr>
                                   <tr><td colSpan="3" style={{ padding: '8px 0 0 0' }}><strong>Estado de garantía:</strong> {' '}{eq.fecha_fin_garantia ? (<span style={{ display: 'inline-block', padding: '4px 12px', borderRadius: '20px', fontSize: '11px', fontWeight: '500', background: calcularGarantia(eq.fecha_fin_garantia)?.bg || '#e2e3e5', color: calcularGarantia(eq.fecha_fin_garantia)?.color || '#383d41' }}>{formatearGarantia(eq.fecha_fin_garantia)}</span>) : eq.garantia ? 'Por calcular (fecha fin no definida)' : 'Sin garantía'}</td></tr>
                                 </tbody>
                               </table>
@@ -609,7 +614,7 @@ function Soluciones({ equipos, setEquipos, token }) {
       )}
 
       {/* Modal de confirmación para eliminar */}
-      {mostrarModalEliminar && equipoAEliminar && (
+      {mostrarModalEliminar && equipoAEliminar && tienePermiso(['super_admin']) && (
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
           backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 2000
